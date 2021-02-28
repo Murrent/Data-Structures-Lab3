@@ -1,0 +1,8 @@
+//
+// Created by Martin on 2021-02-27.
+//
+
+#ifndef LAB3_BINARYTREE_BINARYTREE_H
+#define LAB3_BINARYTREE_BINARYTREE_H
+
+#endif //LAB3_BINARYTREE_BINARYTREE_H
