@@ -2,5 +2,13 @@ cmake_minimum_required(VERSION 3.17)
 project(Lab3_BinaryTree C)
 
 set(CMAKE_C_STANDARD 11)
+set(dir ${CMAKE_CURRENT_SOURCE_DIR})
+set(src ${dir}/src)
 
-add_executable(Lab3_BinaryTree main.c binary_tree/binarytree.c binary_tree/binarytree.h)
+
+add_subdirectory(${src}/binarytree)
+add_subdirectory(${src}/load_files)
+
+add_executable(Lab3_BinaryTree ${dir}/main.c)
+
+target_link_libraries(Lab3_BinaryTree binarytree load_files)
