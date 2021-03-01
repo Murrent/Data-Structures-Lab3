@@ -24,9 +24,9 @@ Node *minimum(Tree *tree);
 
 Node *maximum(Tree *tree);
 
-Node *successor(Tree *tree, Node *node);
+Node *successor(Node *node);
 
-Node *predecessor(Tree *tree, Node *node);
+Node *predecessor(Node *node);
 
 Node *transplant(Tree *tree, Node *root, Node *subtree);
 
