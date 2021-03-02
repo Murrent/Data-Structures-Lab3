@@ -25,7 +25,8 @@ Node *search(Tree *tree, int key) {
         return tmp;
     if (key < tmp->key)
         return search(tmp->left, key);
-    return search(tmp->right, key);
+    else
+        return search(tmp->right, key);
 }
 
 void insert(Tree *tree, Node *node) {
@@ -35,16 +36,32 @@ void insert(Tree *tree, Node *node) {
         y = x;
         if (node->key < x->key)
             x = x->left;
-        x = x->right;
+        else x = x->right;
         node->parent = y;
-        if (y == NULL) tree->root = node;
-        if (node->key < y->key) y->left = node;
+        if (y==NULL) tree->root = node;
+        else if (node->key < y->key) y->left = node;
         else y->right = node;
     }
 }
 
 Node *delete(Tree *tree, Node *node) {
-    return NULL;
+    if (tree == NULL || node == NULL)
+        return NULL;
+    if (node->left == NULL)
+        transplant(tree,node,node->right);
+    else if (node->right == NULL)
+        transplant(tree,node,node->left);
+    else {
+        Node *nodeMin = maximum(node->right);
+        if (nodeMin->parent != node) {
+            transplant(tree, nodeMin, nodeMin->right);
+            nodeMin->right = node->right;
+            nodeMin->right->parent = nodeMin;//fixa
+        }
+        transplant(tree,node,nodeMin);
+        nodeMin->left = node->left;
+        nodeMin->left->parent = nodeMin;//fixa
+    }
 }
 
 Node *minimum(Tree *tree) {
@@ -90,7 +107,16 @@ Node *predecessor(Node *node) {
 }
 
 Node *transplant(Tree *tree, Node *root, Node *subtree) {
-    return NULL;
+    if (tree == NULL || root == NULL || subtree == NULL)
+        return NULL;
+    Node *bs = root->parent;//måste fixa
+    if (bs == NULL)
+        tree->root = subtree;
+    else if (root == bs->left)//måste fixa
+        bs->left;
+    else bs->right = subtree;
+    if (subtree != NULL)
+        subtree->parent = root->parent;
 }
 
 void printInOrder(Tree *tree) {
