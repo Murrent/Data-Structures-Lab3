@@ -19,14 +19,13 @@ Node *createNode(int key) {
     return node;
 }
 
-Node *search(Tree *tree, int key) {
-    Node *tmp = tree->root;
-    if (tree == NULL || key == tmp->key)
-        return tmp;
-    if (key < tmp->key)
-        return search(tmp->left, key);
+Node *search(Node *node, int key) {
+    if (node == NULL || key == node->key)
+        return node;
+    if (key < node->key)
+        return search(node->left, key);
     else
-        return search(tmp->right, key);
+        return search(node->right, key);
 }
 
 void insert(Tree *tree, Node *node) {
@@ -38,7 +37,7 @@ void insert(Tree *tree, Node *node) {
             x = x->left;
         else x = x->right;
         node->parent = y;
-        if (y==NULL) tree->root = node;
+        if (y == NULL) tree->root = node;
         else if (node->key < y->key) y->left = node;
         else y->right = node;
     }
@@ -48,9 +47,9 @@ Node *delete(Tree *tree, Node *node) {
     if (tree == NULL || node == NULL)
         return NULL;
     if (node->left == NULL)
-        transplant(tree,node,node->right);
+        transplant(tree, node, node->right);
     else if (node->right == NULL)
-        transplant(tree,node,node->left);
+        transplant(tree, node, node->left);
     else {
         Node *nodeMin = maximum(node->right);
         if (nodeMin->parent != node) {
@@ -58,24 +57,24 @@ Node *delete(Tree *tree, Node *node) {
             nodeMin->right = node->right;
             nodeMin->right->parent = nodeMin;//fixa
         }
-        transplant(tree,node,nodeMin);
+        transplant(tree, node, nodeMin);
         nodeMin->left = node->left;
         nodeMin->left->parent = nodeMin;//fixa
     }
 }
 
-Node *minimum(Tree *tree) {
-    if (tree == NULL) return NULL;
-    Node *tmp = tree->root;
+Node *minimum(Node *node) {
+    if (node == NULL) return NULL;
+    Node *tmp = node;
     while (tmp->left != NULL) {
         tmp = tmp->left;
     }
     return tmp;
 }
 
-Node *maximum(Tree *tree) {
-    if (tree == NULL) return NULL;
-    Node *tmp = tree->root;
+Node *maximum(Node *node) {
+    if (node == NULL) return NULL;
+    Node *tmp = node;
     while (tmp->right != NULL) {
         tmp = tmp->right;
     }

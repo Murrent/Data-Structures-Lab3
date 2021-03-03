@@ -14,15 +14,15 @@ typedef struct tree_ {
     Node *root;
 } Tree;
 
-Node *search(Tree *tree, int key);
+Node *search(Node *node, int key);
 
 void insert(Tree *tree, Node *node);
 
 Node *delete(Tree *tree, Node *node);
 
-Node *minimum(Tree *tree);
+Node *minimum(Node *node);
 
-Node *maximum(Tree *tree);
+Node *maximum(Node *node);
 
 Node *successor(Node *node);
 
