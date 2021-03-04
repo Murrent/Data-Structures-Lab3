@@ -14,11 +14,17 @@ typedef struct tree_ {
     Node *root;
 } Tree;
 
+Tree *createTree();
+
+Node *createNode(int key);
+
 Node *search(Node *node, int key);
 
 void insert(Tree *tree, Node *node);
 
-Node *delete(Tree *tree, Node *node);
+void transplant(Tree *tree, Node *root, Node *subtree);
+
+void delete(Tree *tree, Node *node);
 
 Node *minimum(Node *node);
 
@@ -28,8 +34,12 @@ Node *successor(Node *node);
 
 Node *predecessor(Node *node);
 
-Node *transplant(Tree *tree, Node *root, Node *subtree);
+int treeSize(Node *node);
 
-void printInOrder(Tree *tree);
+int treeDepth(Node *node);
+
+void printInOrder(Node *node);
+
+void deleteTree(Tree *tree);
 
 #endif //LAB3_BINARYTREE_BINARYTREE_H

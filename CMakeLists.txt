@@ -9,6 +9,6 @@ set(src ${dir}/src)
 add_subdirectory(${src}/binarytree)
 add_subdirectory(${src}/load_files)
 
-add_executable(Lab3_BinaryTree ${dir}/main.c)
+add_executable(operationTest ${src}/operationTest.c)
 
-target_link_libraries(Lab3_BinaryTree binarytree load_files)
+target_link_libraries(operationTest binarytree load_files)

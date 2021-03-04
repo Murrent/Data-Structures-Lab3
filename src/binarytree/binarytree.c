@@ -4,6 +4,7 @@
 
 #include "binarytree.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 Tree *createTree() {
     Tree *tree = (Tree *) malloc(sizeof(Tree));
@@ -16,11 +17,12 @@ Node *createNode(int key) {
     node->key = key;
     node->right = NULL;
     node->left = NULL;
+    node->parent = NULL;
     return node;
 }
 
 Node *search(Node *node, int key) {
-    if (node == NULL || key == node->key)
+    if (!node || key == node->key)
         return node;
     if (key < node->key)
         return search(node->left, key);
@@ -31,62 +33,69 @@ Node *search(Node *node, int key) {
 void insert(Tree *tree, Node *node) {
     Node *y = NULL;
     Node *x = tree->root;
-    while (x != NULL) {
+    while (x) {
         y = x;
         if (node->key < x->key)
             x = x->left;
         else x = x->right;
-        node->parent = y;
-        if (y == NULL) tree->root = node;
-        else if (node->key < y->key) y->left = node;
-        else y->right = node;
     }
+    node->parent = y;
+    if (!y) tree->root = node;
+    else if (node->key < y->key) y->left = node;
+    else y->right = node;
 }
 
-Node *delete(Tree *tree, Node *node) {
-    if (tree == NULL || node == NULL)
-        return NULL;
-    if (node->left == NULL)
+void transplant(Tree *tree, Node *root, Node *subtree) {
+    if (!tree || !root) return;
+    if (!root->parent)
+        tree->root = subtree;
+    else if (root == root->parent->left)
+        root->parent->left = subtree;
+    else root->parent->right = subtree;
+    if (subtree != NULL)
+        subtree->parent = root->parent;
+}
+
+void delete(Tree *tree, Node *node) {
+    if (!tree || !node) return;
+    if (!node->left)
         transplant(tree, node, node->right);
-    else if (node->right == NULL)
+    else if (!node->right)
         transplant(tree, node, node->left);
     else {
-        Node *nodeMin = maximum(node->right);
+        Node *nodeMin = minimum(node->right);
         if (nodeMin->parent != node) {
             transplant(tree, nodeMin, nodeMin->right);
             nodeMin->right = node->right;
-            nodeMin->right->parent = nodeMin;//fixa
+            nodeMin->right->parent = nodeMin;
         }
         transplant(tree, node, nodeMin);
         nodeMin->left = node->left;
-        nodeMin->left->parent = nodeMin;//fixa
+        nodeMin->left->parent = nodeMin;
     }
 }
 
 Node *minimum(Node *node) {
-    if (node == NULL) return NULL;
+    if (!node) return NULL;
     Node *tmp = node;
-    while (tmp->left != NULL) {
+    while (tmp->left)
         tmp = tmp->left;
-    }
     return tmp;
 }
 
 Node *maximum(Node *node) {
-    if (node == NULL) return NULL;
+    if (!node) return NULL;
     Node *tmp = node;
-    while (tmp->right != NULL) {
+    while (tmp->right)
         tmp = tmp->right;
-    }
     return tmp;
 }
 
 Node *successor(Node *node) {
-    if (node == NULL)
-        return NULL;
-    Node *y = node->parent;
+    if (!node) return NULL;
     if (node->right) return minimum(node->right);
-    while (y != NULL && node == y->right) {
+    Node *y = node->parent;
+    while (y && node == y->right) {
         node = y;
         y = y->parent;
     }
@@ -94,30 +103,53 @@ Node *successor(Node *node) {
 }
 
 Node *predecessor(Node *node) {
-    if (node == NULL)
-        return NULL;
-    Node *y = node->parent;
+    if (!node) return NULL;
     if (node->left) return maximum(node->left);
-    while (y != NULL && node == y->left) {
+    Node *y = node->parent;
+    while (y && node == y->left) {
         node = y;
         y = y->parent;
     }
     return y;
 }
 
-Node *transplant(Tree *tree, Node *root, Node *subtree) {
-    if (tree == NULL || root == NULL || subtree == NULL)
-        return NULL;
-    Node *bs = root->parent;//måste fixa
-    if (bs == NULL)
-        tree->root = subtree;
-    else if (root == bs->left)//måste fixa
-        bs->left;
-    else bs->right = subtree;
-    if (subtree != NULL)
-        subtree->parent = root->parent;
+int treeSize(Node *node) {
+    if (!node) return 0;
+    int size = 0;
+    size += treeSize(node->left);
+    size++;
+    size += treeSize(node->right);
+    return size;
 }
 
-void printInOrder(Tree *tree) {
+int treeDepth(Node *node) {
+    if (!node) return 0;
+    int sizeLeft = 0;
+    int sizeRight = 0;
+    if (node->left)
+        sizeLeft = treeDepth(node->left);
+    if (node->right)
+        sizeRight = treeDepth(node->right);
+    if (!node->left && !node->right) {
+        sizeLeft = sizeLeft < sizeRight ? sizeRight : sizeLeft;
+        int size = 0;
+        for (Node* tmp = node; tmp; tmp = tmp->parent) size++;
+        size = sizeLeft < size ? size : sizeLeft;
+        return size;
+    }
+    return sizeLeft < sizeRight ? sizeRight : sizeLeft;
+}
 
+void printInOrder(Node *node) {
+    if (!node) return;
+    printInOrder(node->left);
+    printf("%d\n", node->key);
+    printInOrder(node->right);
+}
+
+void deleteTree(Tree *tree) {
+    if (tree == NULL) return;
+    while (tree->root)
+        delete(tree, tree->root);
+    free(tree);
 }
