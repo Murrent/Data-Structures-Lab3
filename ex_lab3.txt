@@ -1,0 +1,46 @@
+src/binarytree/binarytree.c
+src/binarytree/binarytree.h
+
+Binary Tree is a data structure algorithm that possesses a tree like shape where the first element in the algorithm will be regarded as a base parent (root) and the other elements will be sorted according to the root size.
+For example if the first element is the number 6,5,7 then the number 6 will be the root and the other numbers (children). 
+They will be compared to the root and will be placed to the left if they are smaller or right if they are bigger.
+
+For the test we take the file path from argv[1], read the file
+content add it into an array. We then copy the elements into
+the Binary Tree list and test the implemented functions.
+We then print the sorted list.
+
+To compile the program we used 3 different CMakeLists.txt:
+
+To make the file executable:
+This cmakelists reside in the src folder.
+ 
+cmake_minimum_required(VERSION 3.17)
+project(Lab3_BinaryTree C)
+
+set(CMAKE_C_STANDARD 11)
+set(dir ${CMAKE_CURRENT_SOURCE_DIR})
+set(src ${dir}/src)
+
+
+add_subdirectory(${src}/binarytree)
+add_subdirectory(${src}/load_files)
+
+add_executable(operationTest ${src}/operationTest.c)
+
+target_link_libraries(operationTest binarytree load_files)
+
+To add library:
+This cmakelists reside in the src/binarytree folder.
+
+add_library(binarytree binarytree.h binarytree.c)
+
+To add library:
+This cmakelists reside in the src/load_files folder.
+
+add_library(load_files load_file.h load_file.c)
+
+To run the program we need to pass the file path to a sorting problem:
+    On windows we used Command Prompt:
+        start operationTest.exe [filepath]
+
