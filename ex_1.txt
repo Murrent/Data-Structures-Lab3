@@ -1,7 +1,8 @@
 src/binarytree/binarytree.c
 src/binarytree/binarytree.h
 
-Binary Tree is a data structure algorithm that possesses a tree like shape where the first element in the algorithm will be regarded as a base parent (root) and the other elements will be sorted according to the root size.
+Binary Tree is a data structure algorithm that possesses a tree like shape where the first element in the algorithm will
+be regarded as a base parent (root) and the other elements will be sorted according to the root size.
 For example if the first element is the number 6,5,7 then the number 6 will be the root and the other numbers (children). 
 They will be compared to the root and will be placed to the left if they are smaller or right if they are bigger.
 

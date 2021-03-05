@@ -34,7 +34,7 @@ Node *predecessor(Node *node);
 
 int branchSize(Node *node);
 
-int treeSize(Tree* tree);
+int treeSize(Tree *tree);
 
 int branchDepth(Node *node);
 
