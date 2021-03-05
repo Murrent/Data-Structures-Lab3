@@ -1,6 +1,4 @@
-//
-// Created by Martin on 2021-02-27.
-//
+// Martin Vickgren, Samson Tesfalem
 
 #ifndef LAB3_BINARYTREE_BINARYTREE_H
 #define LAB3_BINARYTREE_BINARYTREE_H

@@ -1,6 +1,4 @@
-//
-// Created by Martin on 2021-02-27.
-//
+// Martin Vickgren, Samson Tesfalem
 
 #include "binarytree.h"
 #include <stdlib.h>
