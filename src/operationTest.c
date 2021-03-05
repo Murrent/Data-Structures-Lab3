@@ -13,31 +13,33 @@ int main(int argc, char* argv[]) {
 
     int size = a[0];
     Tree *tree = createTree();
-    printf("Input:\n");
     for ( int i = 1 ; i <= size ; i++ )
     {
         insert(tree, createNode(a[i]));
-        printf("%d\n", a[i]);
     }
+    printf("Tree in order:\n");
+    printInOrder(tree->root);
 
     printf("\n");
-    printf("Minimum to tree root %d\n", minimum(tree->root) ? minimum(tree->root)->key : 0);
-    printf("Maximum to tree root %d\n", maximum(tree->root) ? maximum(tree->root)->key : 0);
-    printf("Predecessor to tree root %d\n", predecessor(tree->root) ? predecessor(tree->root)->key : 0);
-    printf("Successor to tree root %d\n", successor(tree->root) ? successor(tree->root)->key : 0);
+    printf("Predecessor to 44 %d\n", predecessor(search(tree->root, 44)) ? predecessor(search(tree->root, 44))->key : 0);
+    printf("Successor to 44 %d\n", successor(search(tree->root, 44)) ? successor(search(tree->root, 44))->key : 0);
 
-    printf("\nBefore deleting root: \n");
+    printf("\nBefore deleting predecessor and successor of 44: \n");
+    printf("Depth: %d\n", treeDepth(tree));
+    printf("Size: %d\n", treeSize(tree));
+
+    delete(tree, predecessor(search(tree->root, 44)));
+    delete(tree, successor(search(tree->root, 44)));
+
+    printf("\nAfter deleteing predecessor and successor of 44:\n");
+    printf("Predecessor to 44 %d\n", predecessor(search(tree->root, 44)) ? predecessor(search(tree->root, 44))->key : 0);
+    printf("Successor to 44 %d\n\n", successor(search(tree->root, 44)) ? successor(search(tree->root, 44))->key : 0);
+
+    printf("Tree in order:\n");
     printInOrder(tree->root);
-    printf("Depth: %d\n", treeDepth(tree->root));
-    printf("Size: %d\n", treeSize(tree->root));
+    printf("Depth: %d\n", treeDepth(tree));
+    printf("Size: %d\n", treeSize(tree));
 
-    printf("\nAfter deleteing root\n");
-    delete(tree, tree->root);
-    printInOrder(tree->root);
-    printf("Depth: %d\n", treeDepth(tree->root));
-    printf("Size: %d\n", treeSize(tree->root));
-
-    printf("\n");
     deleteTree(tree);
     return 0;
 }

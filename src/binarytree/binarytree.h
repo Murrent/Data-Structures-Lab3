@@ -34,9 +34,13 @@ Node *successor(Node *node);
 
 Node *predecessor(Node *node);
 
-int treeSize(Node *node);
+int branchSize(Node *node);
 
-int treeDepth(Node *node);
+int treeSize(Tree* tree);
+
+int branchDepth(Node *node);
+
+int treeDepth(Tree *tree);
 
 void printInOrder(Node *node);
 
